@@ -1,97 +1,118 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React, { Component } from "react";
+import { StyleSheet, Text, View, Alert, AsyncStorage } from "react-native";
+import firebase from "react-native-firebase";
 
-import React, {Fragment} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+export default class App extends Component {
+  async componentDidMount() {
+    this.checkPermission();
+    this.createNotificationListeners();
+  }
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+  componentWillUnmount() {
+    this.notificationListener;
+    this.notificationOpenedListener;
+  }
 
-const App = () => {
-  return (
-    <Fragment>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </Fragment>
-  );
-};
+  //Check whether Push Notifications are enabled or not
+  async checkPermission() {
+    const enabled = await firebase.messaging().hasPermission();
+    if (enabled) {
+      this.getToken();
+    } else {
+      this.requestPermission();
+    }
+  }
+
+  //Get Device Registration Token
+  async getToken() {
+    let fcmToken = await AsyncStorage.getItem("fcmToken");
+    if (!fcmToken) {
+      fcmToken = await firebase.messaging().getToken();
+      if (fcmToken) {
+        console.log("fcmToken:", fcmToken);
+        await AsyncStorage.setItem("fcmToken", fcmToken);
+      }
+    }
+  }
+
+  //Request for Push Notification
+  async requestPermission() {
+    try {
+      await firebase.messaging().requestPermission();
+      // If user allow Push Notification
+      this.getToken();
+    } catch (error) {
+      // If user do not allow Push Notification
+      console.log("Rejected");
+    }
+  }
+
+  async createNotificationListeners() {
+    // If your app is in Foreground
+
+    this.notificationListener = firebase
+      .notifications()
+      .onNotification((notification) => {
+        const localNotification = new firebase.notifications.Notification({
+          show_in_foreground: true,
+        })
+          .setNotificationId(notification.notificationId)
+          .setTitle(notification.title)
+          .setBody(notification.body);
+
+        firebase
+          .notifications()
+          .displayNotification(localNotification)
+          .catch((err) => console.error(err));
+      });
+
+    //If your app is in background
+
+    this.notificationOpenedListener = firebase
+      .notifications()
+      .onNotificationOpened((notificationOpen) => {
+        const { title, body } = notificationOpen.notification;
+        console.log("onNotificationOpened:");
+        Alert.alert(title, body);
+      });
+
+    // If your app is closed
+
+    const notificationOpen = await firebase
+      .notifications()
+      .getInitialNotification();
+    if (notificationOpen) {
+      console.log("getInitialNotification:");
+    }
+
+    // For data only payload in foreground
+
+    this.messageListener = firebase.messaging().onMessage((message) => {
+      //process data message
+      console.log("Message", JSON.stringify(message));
+    });
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>Push Notification </Text>
+        <Text style={styles.instructions}>E-Library APp</Text>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F5FCFF",
   },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
+  welcome: {
+    fontSize: 20,
+    textAlign: "center",
+    margin: 10,
   },
 });
-
-export default App;
