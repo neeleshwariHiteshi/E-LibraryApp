@@ -32,14 +32,16 @@ target 'eLibraryApp' do
   
   #pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
+ # use_frameworks!
+     pod 'Firebase/Analytics'
+     pod 'Firebase/Messaging'
+  
   target 'eLibraryAppTests' do
     inherit! :search_paths
     # Pods for testing
     #pod 'Firebase/Core'
     #pod 'Firebase/Auth'
-    use_frameworks!
-    pod 'Firebase/Analytics'
-    pod 'Firebase/Messaging'
+   
 
     
   end
