@@ -96,8 +96,8 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Push Notification </Text>
-        <Text style={styles.instructions}>E-Library APp</Text>
+        <Text style={styles.welcome}>Push Notification Firebase </Text>
+        <Text style={styles.instructions}>E-Library App</Text>
       </View>
     );
   }

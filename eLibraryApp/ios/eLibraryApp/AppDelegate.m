@@ -20,7 +20,7 @@
 {
   if ([FIRApp defaultApp] == nil) {
       [FIRApp configure];
-    NSLog
+    NSLog(@"FIRApp configure success");
   }
   
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
