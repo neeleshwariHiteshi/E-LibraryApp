@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "771494437460",
+    "project_id": "e-libraryapp-41cd5",
+    "storage_bucket": "e-libraryapp-41cd5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771494437460:android:0dd44c7529fee1709203c1",
+        "android_client_info": {
+          "package_name": "com.hiteshi.eLibrary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "771494437460-8s7rplgl7r437q10piadou940qrbn6pd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBO16-F98k5IwcW1-G5XzA5r2EgFOCnIUc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "771494437460-8s7rplgl7r437q10piadou940qrbn6pd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "771494437460-08d93pk21rv873f19r6lqbb8kgsuvr8a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hiteshi.eLibrary"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -34,8 +34,8 @@ target 'eLibraryApp' do
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
  # use_frameworks!
      pod 'Firebase/Analytics'
-     pod 'Firebase/Messaging'
-  
+    # pod 'Firebase/Messaging'
+    pod 'Firebase/Messaging', '~> 6.4.0'
   target 'eLibraryAppTests' do
     inherit! :search_paths
     # Pods for testing

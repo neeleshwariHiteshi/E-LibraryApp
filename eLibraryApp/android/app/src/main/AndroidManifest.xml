@@ -3,6 +3,19 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+<!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+<uses-permission android:name="android.permission.VIBRATE" />
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="16" />
+
+
+<service android:name="io.invertase.firebase.messaging.RNFirebaseMessagingService">
+    <intent-filter>
+      <action android:name="com.google.firebase.MESSAGING_EVENT" />
+    </intent-filter>
+</service>
+<service android:name="io.invertase.firebase.messaging.RNFirebaseBackgroundMessagingService" />
+
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"

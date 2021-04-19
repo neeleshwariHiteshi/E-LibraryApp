@@ -13,10 +13,20 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.4.1")
 
+        // classpath("com.android.tools.build:gradle:3.4.1")
+        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.google.gms:google-services:4.2.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+
+
+        // Firebase
+        //implementation "com.facebook.react:react-native:+"  // From node_modules
+         "com.google.android.gms:play-services-base:17.0.0"
+         "com.google.firebase:firebase-core:17.0.1"
+         "com.google.firebase:firebase-messaging:19.0.0"
+        //compile 'com.google.android.gms:play-services-gcm:7.5.0'
     }
 }
 
@@ -36,3 +46,5 @@ allprojects {
         jcenter()
     }
 }
+
+apply plugin: 'com.google.gms.google-services'
